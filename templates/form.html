@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">Welcome to Birthday Wisher</h1>
+        <form action="/" method="POST">
+            <label for="id">Instagram ID:</label>
+            <input type="text" id="id" name="id" required><br>
+            <label for="date">Birthdate:</label>
+            <input type="date" id="date" name="date" required><br>
+
+            <input type="submit" value="Submit">
+        </form>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">User</th>
+                <th scope="col">Birthday</th>
+              </tr>
+            </thead>
+            <!-- this is a for jinja for loop used to display all the data variables -->
+            <tbody>
+                {% for day in birthdays %}
+                <tr>
+                  <th scope="row">{{loop.index}}</th> <!--the loop index is used to maintain the integers getting unordered after deleting anything-->
+                  <td>{{day.user_id}}</td>
+                  <td>{{day.birthday}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+
+    </div>
+</body>
+</html>
