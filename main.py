@@ -1,8 +1,11 @@
+import os
 import sqlite3
 from datetime import datetime
 from instagrapi import Client
+from dotenv import load_dotenv
 
-# sends only one msg loop it
+# Load environment variables from .env file
+load_dotenv()
 
 def check_today_birthdays():
     # Connect to the SQLite database
@@ -40,8 +43,8 @@ def check_today_birthdays():
 def post_to_instagram(username):
     try:
         # creds
-        your_username = "pand.a123300"
-        your_password = "mihir123"
+        your_username = os.getenv("INSTAGRAM_USERNAME")
+        your_password = os.getenv("INSTAGRAM_PASSWORD")
         your_photo_path = "static/img1.jpg"
 
         # Compose the birthday message
@@ -64,5 +67,3 @@ def post_to_instagram(username):
 
 if __name__ == "__main__":
     check_today_birthdays()
-
-
