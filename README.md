@@ -16,7 +16,7 @@ Follow these steps to get the development environment running:
 
 ```bash
 # Clone the repo
-git clone https://github.com/pccoe-acm-hacktoberfest-2023/GDSC_Insta_Bot.git
+git clone https://github.com/your-username/GDSC_Insta_Bot.git
 
 # Move into the repo
 cd GDSC_Insta_Bot/
