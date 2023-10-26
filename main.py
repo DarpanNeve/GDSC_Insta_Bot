@@ -32,12 +32,17 @@ def check_today_birthdays():
             birthday_date = datetime.strptime(birthday_str, "%Y-%m-%d")
             # Compare the month and day of the birthday with the current date
             if birthday_date.month == current_date.month and birthday_date.day == current_date.day:
-                # creds
-                your_username = os.getenv("INSTAGRAM_USERNAME")
-                your_password = os.getenv("INSTAGRAM_PASSWORD")
-                # Create an Instagrapi client and login to your Instagram account
-                client = Client()
-                client.login(your_username, your_password)
+                try:
+                    # creds
+                    your_username = os.getenv("INSTAGRAM_USERNAME")
+                    your_password = os.getenv("INSTAGRAM_PASSWORD")
+                    # Create an Instagrapi client and login to your Instagram account
+                    client = Client()
+                    client.login(your_username, your_password)
+                except Exception as e:
+                    print(f"An error occurred during the login process: {e}")
+                    close_db(cursor, conn)
+                    return -1
                 # Call the function to post and create story on Instagram
                 post_to_instagram(user_id, client, your_photo_path="static/img1.jpg")
                 post_story_to_instagram(user_id, client, your_photo_path="static/img1.jpg")
@@ -49,8 +54,12 @@ def check_today_birthdays():
 
     finally:
         # Close the cursor and connection
-        cursor.close()
-        conn.close()
+        close_db(cursor, conn)
+
+
+def close_db(cursor, conn):
+    cursor.close()
+    conn.close()
 
 
 def post_to_instagram(username, client, your_photo_path):
