@@ -28,9 +28,10 @@ def check_today_birthdays():
             # Convert the birthday string to a datetime object
             birthday_date = datetime.strptime(birthday_str, "%Y-%m-%d")
             # Compare the month and day of the birthday with the current date
-            if birthday_date.month == current_date.month and birthday_date.day == current_date.day:
+            if birthday_date.month == current_date.month and birthday_date.day == current_date.day and current_date.year - birthday_date.year < 100:
                 # Call the function to post on Instagram
-                post_to_instagram(user_id)
+                post_to_instagram(user_id) 
+
 
     except Exception as e:
         print(f"Error: {e}")
