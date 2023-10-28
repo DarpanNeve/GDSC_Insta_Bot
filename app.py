@@ -35,10 +35,12 @@ def form():
         user_id = request.form['id']
         birthdate = request.form['date']
         # create object of Birthday and do the following
-        birthday = Birthday(user_id=user_id, birthday=birthdate)
-        db.session.add(birthday)
-        db.session.commit()
-        wishes_count += 1  # Increment the wishes count
+        if age <= 100 and wishes_count < 100:
+            # Create an object of Birthday and do the following
+            birthday = Birthday(user_id=user_id, birthday=birthdate)
+            db.session.add(birthday)
+            db.session.commit()
+            wishes_count += 1  # Increment the wishes count
         # Redirect to a different route (GET route) after processing the form data
         return redirect('/show')
 
