@@ -8,6 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///birthday.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class Birthday(db.Model):
     # table columns are specified here
     sno = db.Column(db.Integer, primary_key=True)
@@ -18,17 +19,27 @@ class Birthday(db.Model):
     def __repr__(self) -> str:
         return f"{self.user_id} - {self.birthday}"
 
+
+wishes_count = 0  # Counter to keep track of how many times the bot has wished users
+
+
 @app.route('/', methods=['GET', 'POST'])
 def form():
+    global wishes_count
+    if wishes_count >= 100:
+        return "Maximum wishes limit (100) reached."
+        # return render_template('limit_reached.html')
     # this is the main code
     if request.method == 'POST':
         # get data of id and date by this method
         user_id = request.form['id']
         birthdate = request.form['date']
         # create object of Birthday and do the following
-        birthday = Birthday(user_id=user_id, birthday=birthdate)
-        db.session.add(birthday)
-        db.session.commit()
+        if age <= 100 and wishes_count < 100:
+            birthday = Birthday(user_id=user_id, birthday=birthdate)
+            db.session.add(birthday)
+            db.session.commit()
+            wishes_count += 1  # Increment the wishes count
         # Redirect to a different route (GET route) after processing the form data
         return redirect('/show')
 
@@ -36,16 +47,18 @@ def form():
     # the line birthdays = birthdays is the line where we send the data to html
     return render_template('form.html', birthdays=birthdays)
 
+
 # todo render template
 @app.route('/show')
 def products():
     birthday = Birthday.query.all()
     return 'this is products page'
 
+
 if __name__ == "__main__":
     # To solve the error, set up an application context
     with app.app_context():
         # Create all tables defined in the models
         db.create_all()
-    
+
     app.run(host="0.0.0.0", port=5000, debug=True)
